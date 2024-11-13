@@ -1,8 +1,8 @@
 from telethon.sync import TelegramClient, events
 import asyncio
 from open_ai_analysis import SimpleGptAgent
-#from dotenv import load_dotenv
-#import os
+from dotenv import load_dotenv
+import os
 from streamlit import secrets
 import tiktoken
 import pandas as pd
@@ -12,8 +12,10 @@ class TelegramBot(object):
     def __init__(self, channel_username = -1):    
         
         # Your details from the step above
-        #self.api_id = os.environ.get('api_id')
-        #self.api_hash = os.environ.get('api_hash')
+        load_dotenv()
+        self.api_id = os.environ.get('api_id')
+        self.api_hash = os.environ.get('api_hash')
+        self.channel_username = int(os.environ.get('channel_username', -1))
         self.api_id = secrets['api_id']
         self.api_hash = secrets['api_hash']
         
