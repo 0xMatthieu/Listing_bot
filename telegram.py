@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from telethon.sync import TelegramClient, events
 import asyncio
 from open_ai_analysis import SimpleGptAgent

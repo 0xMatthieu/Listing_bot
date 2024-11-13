@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import warnings
 from dotenv import load_dotenv
 import os
