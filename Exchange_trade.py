@@ -7,13 +7,11 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import logging
 import ccxt
-from streamlit import secrets
 import time
 import pandas as pd
 import math
 import Sharing_data
 from datetime import timedelta
-import asyncio
 from Trading_tools import round_down
 
 class Exchange(object):
@@ -24,9 +22,9 @@ class Exchange(object):
 		self.channel_username = int(os.environ.get('channel_username', -1))
 
 		if name == 'kucoin':
-			api_key = secrets['api_key_kucoin']
-			api_secret = secrets['api_secret_kucoin']
-			api_passphrase = secrets['api_passphrase_kucoin']
+			api_key = os.environ.get('api_key_kucoin')
+			api_secret = os.environ.get('api_secret_kucoin')
+			api_passphrase = os.environ.get('api_passphrase_kucoin')
 			
 			self.spot_exchange = ccxt.kucoin({
 				'apiKey': api_key,
@@ -39,8 +37,8 @@ class Exchange(object):
 				'password': api_passphrase,  # KuCoin Futures requires a password (passphrase)
 			})
 		elif name == 'binance':
-			api_key = secrets['api_key_binance']
-			api_secret = secrets['api_secret_binance']
+			api_key = os.environ.get('api_key_binance')
+			api_secret = os.environ.get('api_secret_binance')
 			
 			self.spot_exchange = ccxt.binance({
 				'apiKey': api_key,

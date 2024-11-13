@@ -2,10 +2,8 @@
 
 from telethon.sync import TelegramClient, events
 import asyncio
-from open_ai_analysis import SimpleGptAgent
 from dotenv import load_dotenv
 import os
-from streamlit import secrets
 import tiktoken
 import pandas as pd
 
@@ -13,8 +11,8 @@ class TelegramBot(object):
     
     def __init__(self, channel_username = -1):
         load_dotenv()
-        self.api_id = secrets['api_id']
-        self.api_hash = secrets['api_hash']
+        self.api_id = os.environ.get('api_id')
+        self.api_hash = os.environ.get('api_hash')
         self.channel_username = int(os.environ.get('channel_username', -1))
         self.reply = ''
         self.messages = ''
@@ -28,10 +26,7 @@ class TelegramBot(object):
         self.all_messages = ''
 
         # id shall be used with prefix -100, else it leads to an error
-        #channel_username = -1001717592521  # replace with the channel's username
         self.channel_username = channel_username
-        #self.channel_username = -1001949867218
-        #self.channel_username = -1001872324786
         self.channel_title = ""
         # Register the event handler
         #self.client.on(events.NewMessage(chats=[self.channel_username]))(self.handler)
@@ -53,42 +48,6 @@ class TelegramBot(object):
             await client.start()
             channel = await client.get_entity(self.channel_username)
             self.channel_title = channel.title
-    
-    async def get_historical(self, limit: int = None, find_str = None):
-        # note: searching crypto add extra space, else each text which contains the name will be added
-        # [' CAU ', 'canxium'], add extra space cause CAU can be find in many words, which will return wrong answer
-        #limit = limit or self.messages_limit
-        self.messages = ''
-
-        # Initialize the tokenizer
-        encoding = tiktoken.get_encoding("cl100k_base")
-
-        # Variable to store the total token count
-        self.tokens = 0
-
-        if find_str is not None:
-            pattern = '|'.join(find_str)
-            #filtered_df = self.messages_df[self.messages_df['text'].isin(find_str)]
-            filtered_df = self.messages_df[self.messages_df['text'].str.contains(pattern, case=False, na=False, regex=True)]
-        elif find_str is None and limit is not None:
-            filtered_df = self.messages_df.iloc[:limit]
-        else:
-            print('no filtered df returned')
-            return
-
-        self.debug_1 = filtered_df
-
-        # Looping through DataFrame
-        for index, row in filtered_df.iterrows():
-
-            if row['reply_message_text'] is not None:
-                self.messages += '*** ' + str(row.reply_message_text) + '  \n'
-            self.messages += str(row.text) + '  \n  \n'
-
-        # Tokenize the message text
-        self.tokens = len(encoding.encode(self.messages))
-
-        print("historical done")
     
     # get all data of a channel
     async def get_all_historical(self, save = False, update = True):
@@ -155,7 +114,7 @@ if __name__ == '__main__':
     #bot.client.start()
     loop = asyncio.get_event_loop()
     #loop.run_until_complete(bot.get_historical())
-    #loop.run_until_complete(bot.get_all_historical(update = True, save = True))
+    loop.run_until_complete(bot.get_all_historical(update = False, save = True))
     #bot.reply = agent.ask(bot.messages)
     print(bot.messages)
     print('---------')
