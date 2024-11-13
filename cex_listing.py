@@ -74,7 +74,7 @@ class ExchangeListingMonitor:
 
                     return new_listings
                 else:
-                    print(f"No new listings on {exchange_name}.")
+                    #print(f"No new listings on {exchange_name}.")
             except Exception as e:
                 print(f"Error fetching data from {exchange_name}: {e}")
 
