@@ -9,17 +9,11 @@ import pandas as pd
 
 class TelegramBot(object):
     
-    def __init__(self, channel_username = -1):    
-        
-        # Your details from the step above
+    def __init__(self, channel_username = -1):
         load_dotenv()
-        self.api_id = os.environ.get('api_id')
-        self.api_hash = os.environ.get('api_hash')
-        self.channel_username = int(os.environ.get('channel_username', -1))
         self.api_id = secrets['api_id']
         self.api_hash = secrets['api_hash']
-        
-        #self.client = TelegramClient('anon', self.api_id, self.api_hash)
+        self.channel_username = int(os.environ.get('channel_username', -1))
         self.reply = ''
         self.messages = ''
         self.messages_df = pd.DataFrame(columns=['message_id', 'sender_id', 'sender_name', 'date', 'text', 'is_reply',
