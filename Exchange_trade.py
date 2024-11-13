@@ -1,4 +1,6 @@
 import warnings
+from dotenv import load_dotenv
+import os
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import logging
@@ -15,7 +17,9 @@ from Trading_tools import round_down
 class Exchange(object):
 
 	def __init__(self, name='kucoin' ):
+		load_dotenv()
 		self.adjust_timestamp_to_local_time = 2*60*60*1000	#currently +2hours UTC
+		self.channel_username = int(os.environ.get('channel_username', -1))
 
 		if name == 'kucoin':
 			api_key = secrets['api_key_kucoin']
