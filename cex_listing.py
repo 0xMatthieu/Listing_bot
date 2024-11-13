@@ -64,7 +64,7 @@ class ExchangeListingMonitor:
                 # Identify new listings by checking for symbols not in the previous snapshot
                 new_listings = current_symbols - previous_symbols
                 if new_listings:
-                    print(f"New listings on {exchange_name}: {new_listings}")
+                    #print(f"New listings on {exchange_name}: {new_listings}")
                     for symbol in new_listings:
                         # Log each new listing
                         self.log_new_listing(exchange_name, symbol)

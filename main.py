@@ -21,5 +21,5 @@ while True:
     if new_currency:
         print("New coin added:", new_currency)
 
-    print("time elapsed to run the function:", time.time()-start_time)
+    #print("time elapsed to run the function:", time.time()-start_time)
     time.sleep(1)
