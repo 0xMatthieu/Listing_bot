@@ -1,5 +1,4 @@
 import pandas as pd 
-import streamlit as st
 import json
 import os
 from datetime import timedelta
@@ -36,17 +35,6 @@ def life_data(life_data=None, file_path="data/data.txt", interval=10, level=logg
 		append_to_file(input_string=f"app is still running at {pd.Timestamp.now()}", file_path=file_path, level=level)
 		life_data = pd.Timestamp.now()
 	return life_data
-
-
-# Function to read the file and write content using st.write, one line per sentence
-def read_and_display_file(file_path="data/data.txt"):
-    try:
-        with open(file_path, "r") as file:
-            lines = file.readlines()
-            for line in lines:
-                st.write(line.strip())
-    except FileNotFoundError:
-        st.write("File not found. Please add some content first.")
 
 # Function to erase JSON content
 def erase_json_content(filename):
@@ -125,4 +113,8 @@ def erase_folder_content(folder_path='data/'):
 		except Exception as e:
 			print(f"Failed to delete {file_path}. Reason: {e}")
 
+	logger = create_logger()
+
+def logger_init():
+	global logger
 	logger = create_logger()

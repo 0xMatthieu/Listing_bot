@@ -21,7 +21,7 @@ class WebhookAlerts:
         if response.status_code == 200:
             data = response.json()
             if data['data']:
-                return data['data'][0]  # Return the latest request data
+                return data['data'][-1]  # Return the latest request data
         return None
 
     def save_last_request(self, request_data):
